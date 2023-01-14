@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}"></title>
+</head>
+<body>
+	<h2 th:text="${titulo}"></h2>
+	<form th:action="@{/form}" th:object="${usuario}" method="post">
+		<div>
+			<label for="username">Username</label>
+			<div>
+				<!-- 'Original': <input type="text" name="username" id="username" th:value="${user.username}"> -->
+				<input type="text" id="username" th:field="*{username}">
+			</div>
+			<!-- error.username es igual a errores.get('username') -->
+			<div th:if="${error != null && error.containsKey('username')}"
+				th:text="${error.username}"></div>
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<div>
+				<!-- 'Original': <input type="password" name="password" id="password"> -->
+				<input type="password" id="password" th:field="*{password}">
+			</div>
+			<div th:if="${error != null && error.containsKey('password')}"
+				th:text="${error.password}"></div>
+		</div>
+		<div>
+			<label for="email">Email</label>
+			<div>
+				<!-- 'Original': <input type="text" name="email" id="email" th:value="${user.email}"> -->
+				<input type="text" id="email" th:field="*{email}">
+			</div>
+			<div th:if="${error != null && error.containsKey('email')}"
+				th:text="${error.email}"></div>
+		</div>
+		<div>
+			<div>
+				<input type="submit" value="Enviar">
+			</div>
+		</div>
+	</form>
+</body>
+</html>
