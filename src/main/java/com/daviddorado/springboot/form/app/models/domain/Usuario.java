@@ -1,5 +1,7 @@
 package com.daviddorado.springboot.form.app.models.domain;
 
+import java.util.Date;
+
 import com.daviddorado.springboot.form.app.validation.IdentificationRegex;
 import com.daviddorado.springboot.form.app.validation.Requerido;
 
@@ -8,6 +10,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 public class Usuario {
@@ -25,12 +28,16 @@ public class Usuario {
 	private String password;	
 	@Email
 	@NotBlank
-	private String email;
-	
+	private String email;	
 	@NotNull
 	@Min(5)
 	@Max(20000)
-	private Integer cuenta;
+	private Integer cuenta;	
+	@NotNull
+	@Past
+	// IMPORTANTE -> "yyyy-MM-dd" Es el patrón con el que envia type date de html
+	//@DateTimeFormat(pattern = "yyyy-MM-dd")		
+	private Date fechaNac;
 
 	public String getUsername() {
 		return username;
@@ -87,6 +94,16 @@ public class Usuario {
 	public void setCuenta(Integer cuenta) {
 		this.cuenta = cuenta;
 	}
+
+	public Date getFechaNac() {
+		return fechaNac;
+	}
+
+	public void setFechaNac(Date fechaNac) {
+		this.fechaNac = fechaNac;
+	}
+	
+	
 	
 
 }
