@@ -26,16 +26,16 @@ import jakarta.validation.Valid;
 public class FormController {
 	@Autowired
 	private UsuarioValidator validator;
-	
-	
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.addValidators(validator);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+		// Si el segundo parámetro de new CustomDateEditor es true manda null si es false se valida por fecha los vacios
+		binder.registerCustomEditor(Date.class, "fechaNac", new CustomDateEditor(dateFormat, false));
 	}
-	
+
 	@GetMapping("/form")
 	public String form(Model model) {
 		Usuario usuario = new Usuario();
@@ -43,7 +43,7 @@ public class FormController {
 		usuario.setApellido("Doe");
 		usuario.setIdentificador("123456789-L");
 		model.addAttribute("titulo", "Formulario prueba");
-		model.addAttribute("usuario",usuario);
+		model.addAttribute("usuario", usuario);
 		return "form";
 	}
 
@@ -52,38 +52,43 @@ public class FormController {
 	 * envia desde el atributo name por lo que debe coincidir el nombre del
 	 * parámetro con el nombre del atributo name del formulario
 	 * 
-	 * @RequestParam(name="nombre") donde nombre es el valor del atributo name -> Permite no usar el mismo nombre para el parámetro
-	 * Cuando se valida el Pojo del formulario va como primer parámetro y el BindingResult como segundo
-	 * @ModelAttribute permite cambiar el nombre del objeto para el formulario 
+	 * @RequestParam(name="nombre") donde nombre es el valor del atributo name ->
+	 * Permite no usar el mismo nombre para el parámetro Cuando se valida el Pojo
+	 * del formulario va como primer parámetro y el BindingResult como segundo
+	 * 
+	 * @ModelAttribute permite cambiar el nombre del objeto para el formulario
 	 */
 	@PostMapping("/form")
-	public String procesar(@Valid Usuario usuario, BindingResult validationResult ,Model model, SessionStatus status) // , @RequestParam String username, @RequestParam String
-															// password, @RequestParam String email)
+	public String procesar(@Valid Usuario usuario, BindingResult validationResult, Model model, SessionStatus status) // ,
+																														// @RequestParam
+																														// String
+																														// username,
+																														// @RequestParam
+																														// String
+	// password, @RequestParam String email)
 	{
-		//validator.validate(usuario, validationResult);
+		// validator.validate(usuario, validationResult);
 		model.addAttribute("titulo", "Resultado formulario");
 		if (validationResult.hasErrors()) {
-			/*Map<String, String> errores = new HashMap<>();
-			validationResult.getFieldErrors().forEach(error -> {
-				errores.put(error.getField(), "El campo ".concat(error.getField()).concat(" ").concat(error.getDefaultMessage()));
-			});
-			model.addAttribute("error",errores);*/
+			/*
+			 * Map<String, String> errores = new HashMap<>();
+			 * validationResult.getFieldErrors().forEach(error -> {
+			 * errores.put(error.getField(),
+			 * "El campo ".concat(error.getField()).concat(" ").concat(error.
+			 * getDefaultMessage())); }); model.addAttribute("error",errores);
+			 */
 			return "form";
 		}
 		/*
-		 * Usuario usuario = new Usuario(); 
-		 * usuario.setUsername(username);
-		 * usuario.setPassword(password); 
-		 * usuario.setEmail(email);
+		 * Usuario usuario = new Usuario(); usuario.setUsername(username);
+		 * usuario.setPassword(password); usuario.setEmail(email);
 		 */
-		
-		
+
 		model.addAttribute("usuario", usuario);
 		status.setComplete();
 		/*
-		 * model.addAttribute("username", username); 
-		 * model.addAttribute("password", password); 
-		 * model.addAttribute("email", email);
+		 * model.addAttribute("username", username); model.addAttribute("password",
+		 * password); model.addAttribute("email", email);
 		 */
 		return "resultado";
 	}
