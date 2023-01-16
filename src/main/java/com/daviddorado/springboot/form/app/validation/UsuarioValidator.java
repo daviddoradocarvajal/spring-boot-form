@@ -22,9 +22,9 @@ public class UsuarioValidator implements Validator {
 			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nombre", "NotEmpty.usuario.nombre");
 			
-			if(!usuario.getIdentificador().matches("[0-9]{3}[.,][\\d]{3}[.,][\\d]{3}[-][A-Z]{1}")) {
+			/*if(!usuario.getIdentificador().matches("[0-9]{3}[.,][\\d]{3}[.,][\\d]{3}[-][A-Z]{1}")) {
 				errors.rejectValue("identificador", "Pattern.usuario.identificador");
-			}
+			}*/
 		}else {
 			System.out.println("Not an user");
 			errors.reject("NotUser", "Not an User");

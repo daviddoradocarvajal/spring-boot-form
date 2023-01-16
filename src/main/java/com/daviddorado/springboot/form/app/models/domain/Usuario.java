@@ -1,5 +1,7 @@
 package com.daviddorado.springboot.form.app.models.domain;
 
+import com.daviddorado.springboot.form.app.validation.IdentificationRegex;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,6 +9,7 @@ import jakarta.validation.constraints.Size;
 
 public class Usuario {
 	//@Pattern(regexp = "[0-9]{3}[.,][\\d]{3}[.,][\\d]{3}[-][A-Z]{1}")
+	@IdentificationRegex
 	private String identificador;	
 	//@NotEmpty
 	private String nombre;
