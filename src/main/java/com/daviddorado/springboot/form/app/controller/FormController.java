@@ -5,14 +5,18 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.daviddorado.springboot.form.app.models.domain.Usuario;
 
 import jakarta.validation.Valid;
 
+//SessionAttributes -> Mantiene los datos del model durante la sesion HTTP y no los elimina (para persistir id sin mostrar en un formulario)
 @Controller
+@SessionAttributes("usuario")
 public class FormController {
-
+	
 	@GetMapping("/form")
 	public String form(Model model) {
 		Usuario usuario = new Usuario();
@@ -34,7 +38,7 @@ public class FormController {
 	 * @ModelAttribute permite cambiar el nombre del objeto para el formulario 
 	 */
 	@PostMapping("/form")
-	public String procesar(@Valid Usuario usuario, BindingResult validationResult ,Model model) // , @RequestParam String username, @RequestParam String
+	public String procesar(@Valid Usuario usuario, BindingResult validationResult ,Model model, SessionStatus status) // , @RequestParam String username, @RequestParam String
 															// password, @RequestParam String email)
 	{
 		model.addAttribute("titulo", "Resultado formulario");
@@ -55,6 +59,7 @@ public class FormController {
 		
 		
 		model.addAttribute("usuario", usuario);
+		status.setComplete();
 		/*
 		 * model.addAttribute("username", username); 
 		 * model.addAttribute("password", password); 

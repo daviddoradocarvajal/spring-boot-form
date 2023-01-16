@@ -1,18 +1,22 @@
 package com.daviddorado.springboot.form.app.models.domain;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 public class Usuario {
 
-	private String identificador;
+	private String identificador;	
 	@NotEmpty
 	private String nombre;
 	@NotEmpty
 	private String apellido;
 	@NotEmpty
+	@Size(min = 3,max = 8)
 	private String username;
 	@NotEmpty
-	private String password;
+	private String password;	
+	@Email
 	@NotEmpty
 	private String email;
 
