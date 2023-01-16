@@ -13,7 +13,8 @@
 			<div>
 				<input type="text" id="identificador" th:field="*{identificador}">
 			</div>
-			<div th:if="${#fields.hasErrors('identificador')}" th:errors="*{identificador}"></div>
+			<div th:if="${#fields.hasErrors('identificador')}"
+				th:errors="*{identificador}"></div>
 		</div>
 		<div>
 			<label for="nombre">Nombre</label>
@@ -61,6 +62,14 @@
 			<!--  'Original': <div th:if="${error != null && error.containsKey('email')}"
 				th:text="${error.email}"></div>  -->
 			<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+		</div>
+		<div>
+			<label for="cuenta">Cuenta</label>
+			<div>
+			<!-- input type text para poder usar las validaciones de typeMismatch -->
+				<input type="number" id="cuenta" th:field="*{cuenta}">
+			</div>
+			<div th:if="${#fields.hasErrors('cuenta')}" th:errors="*{cuenta}"></div>
 		</div>
 		<div>
 			<div>

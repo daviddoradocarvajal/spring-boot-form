@@ -18,7 +18,7 @@ public class UsuarioValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		if(target instanceof Usuario) {
-			Usuario usuario = (Usuario) target;
+			//Usuario usuario = (Usuario) target;
 			
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nombre", "NotEmpty.usuario.nombre");
 			
