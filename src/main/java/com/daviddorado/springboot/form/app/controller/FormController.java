@@ -23,6 +23,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.daviddorado.springboot.form.app.editors.NombreEditor;
 import com.daviddorado.springboot.form.app.models.domain.Pais;
 import com.daviddorado.springboot.form.app.models.domain.Usuario;
+import com.daviddorado.springboot.form.app.services.PaisService;
 import com.daviddorado.springboot.form.app.validation.UsuarioValidator;
 
 import jakarta.validation.Valid;
@@ -33,6 +34,8 @@ import jakarta.validation.Valid;
 public class FormController {
 	@Autowired
 	private UsuarioValidator validator;
+	@Autowired
+	private PaisService paisService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -63,8 +66,7 @@ public class FormController {
 
 	@ModelAttribute("listaPaises")
 	public List<Pais> listaPaises() {
-		return Arrays.asList(new Pais(1, "ES", "España"), new Pais(2, "PT", "Portugal"), new Pais(3, "FR", "Francia"),
-				new Pais(4, "AN", "Andorra"));
+		return paisService.listar();
 	}
 
 	@GetMapping("/form")
