@@ -3,7 +3,9 @@ package com.daviddorado.springboot.form.app.controller;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.daviddorado.springboot.form.app.editors.NombreEditor;
+import com.daviddorado.springboot.form.app.models.domain.Pais;
 import com.daviddorado.springboot.form.app.models.domain.Usuario;
 import com.daviddorado.springboot.form.app.validation.UsuarioValidator;
 
@@ -36,17 +39,34 @@ public class FormController {
 		binder.addValidators(validator);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
-		// Si el segundo parámetro de new CustomDateEditor es true manda null si es false se valida por fecha los vacios
+		// Si el segundo parámetro de new CustomDateEditor es true manda null si es
+		// false se valida por fecha los vacios
 		binder.registerCustomEditor(Date.class, "fechaNac", new CustomDateEditor(dateFormat, false));
 		binder.registerCustomEditor(String.class, "nombre", new NombreEditor());
 		binder.registerCustomEditor(String.class, "userName", new NombreEditor());
 	}
-	
+
 	@ModelAttribute("paises")
-	public List<String> paises() {		
-		return Arrays.asList("España","Portugal","Francia","Andorra");
+	public List<String> paises() {
+		return Arrays.asList("España", "Portugal", "Francia", "Andorra");
 	}
-	
+
+	@ModelAttribute("paisesMap")
+	public Map<String, String> paisesMap() {
+		Map<String, String> paises = new HashMap<>();
+		paises.put("Es", "España");
+		paises.put("Pt", "Portugal");
+		paises.put("Fr", "Francia");
+		paises.put("An", "Andorra");
+		return paises;
+	}
+
+	@ModelAttribute("listaPaises")
+	public List<Pais> listaPaises() {
+		return Arrays.asList(new Pais(1, "ES", "España"), new Pais(2, "PT", "Portugal"), new Pais(3, "FR", "Francia"),
+				new Pais(4, "AN", "Andorra"));
+	}
+
 	@GetMapping("/form")
 	public String form(Model model) {
 		Usuario usuario = new Usuario();
