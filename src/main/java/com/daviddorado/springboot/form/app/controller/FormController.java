@@ -1,7 +1,9 @@
 package com.daviddorado.springboot.form.app.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -11,10 +13,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.daviddorado.springboot.form.app.editors.NombreEditor;
 import com.daviddorado.springboot.form.app.models.domain.Usuario;
 import com.daviddorado.springboot.form.app.validation.UsuarioValidator;
 
@@ -34,14 +38,21 @@ public class FormController {
 		dateFormat.setLenient(false);
 		// Si el segundo parámetro de new CustomDateEditor es true manda null si es false se valida por fecha los vacios
 		binder.registerCustomEditor(Date.class, "fechaNac", new CustomDateEditor(dateFormat, false));
+		binder.registerCustomEditor(String.class, "nombre", new NombreEditor());
+		binder.registerCustomEditor(String.class, "userName", new NombreEditor());
 	}
-
+	
+	@ModelAttribute("paises")
+	public List<String> paises() {		
+		return Arrays.asList("España","Portugal","Francia","Andorra");
+	}
+	
 	@GetMapping("/form")
 	public String form(Model model) {
 		Usuario usuario = new Usuario();
-		usuario.setNombre("John");
-		usuario.setApellido("Doe");
-		usuario.setIdentificador("123456789-L");
+		usuario.setNombre("john");
+		usuario.setApellido("doe");
+		usuario.setIdentificador("123.456.789-L");
 		model.addAttribute("titulo", "Formulario prueba");
 		model.addAttribute("usuario", usuario);
 		return "form";

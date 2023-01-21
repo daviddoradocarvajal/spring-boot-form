@@ -9,6 +9,17 @@
 	<!-- El nombre dentro de th:object se usa en messages.properties -->
 	<form th:action="@{/form}" th:object="${usuario}" method="post">
 		<div>
+			<label for="pais">Pais</label>
+			<div>
+				<select id="pais" th:field="*{pais}">
+				<option value="">-- Seleccione pais --</option>
+				<option th:each="pais: ${paises}" th:text="${pais}" th:value="${pais}"></option>
+				</select>
+			</div>
+			<div th:if="${#fields.hasErrors('pais')}"
+				th:errors="*{pais}"></div>
+		</div>
+		<div>
 			<label for="identificador">Identificador</label>
 			<div>
 				<input type="text" id="identificador" th:field="*{identificador}">
@@ -66,15 +77,16 @@
 		<div>
 			<label for="cuenta">Cuenta</label>
 			<div>
-			<!-- input type text para poder usar las validaciones de typeMismatch -->
+				<!-- input type text para poder usar las validaciones de typeMismatch -->
 				<input type="number" id="cuenta" th:field="*{cuenta}">
 			</div>
 			<div th:if="${#fields.hasErrors('cuenta')}" th:errors="*{cuenta}"></div>
 		</div>
 		<div>
 			<label for="fechaNac">Fecha Nacimiento</label>
-			<div>			
-				<input type="date" id="fechaNac" th:field="*{fechaNac}" placeholder="yyyy/MM/dd">
+			<div>
+				<input type="date" id="fechaNac" th:field="*{fechaNac}"
+					placeholder="yyyy/MM/dd">
 			</div>
 			<div th:if="${#fields.hasErrors('fechaNac')}" th:errors="*{fechaNac}"></div>
 		</div>
