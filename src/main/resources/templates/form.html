@@ -9,6 +9,15 @@
 	<!-- El nombre dentro de th:object se usa en messages.properties -->
 	<form th:action="@{/form}" th:object="${usuario}" method="post">
 		<div>
+			<label>Roles</label>
+			<div th:each="role: ${rolesString}">
+				<input type="checkbox" th:field="*{roles}" th:value="${role}">
+				<label th:for="${#ids.prev('roles')}" th:text="${role}"></label>
+			</div>
+			<div th:if="${#fields.hasErrors('roles')}"
+				th:errors="*{roles}"></div>
+		</div>
+		<div>
 			<label for="pais">Pais</label>
 			<div>
 				<select id="pais" th:field="*{pais}">

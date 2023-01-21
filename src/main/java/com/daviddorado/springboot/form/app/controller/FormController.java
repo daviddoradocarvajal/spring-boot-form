@@ -57,6 +57,11 @@ public class FormController {
 	public List<String> paises() {
 		return Arrays.asList("España", "Portugal", "Francia", "Andorra");
 	}
+	
+	@ModelAttribute("rolesString")
+	public List<String> rolesString() {
+		return Arrays.asList("Usuario", "Admin", "Moderador");
+	}
 
 	@ModelAttribute("paisesMap")
 	public Map<String, String> paisesMap() {

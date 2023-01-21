@@ -1,6 +1,7 @@
 package com.daviddorado.springboot.form.app.models.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import com.daviddorado.springboot.form.app.validation.IdentificationRegex;
 import com.daviddorado.springboot.form.app.validation.Requerido;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -42,6 +44,8 @@ public class Usuario {
 	@NotNull
 	//@Valid
 	private Pais pais;
+	@NotEmpty
+	private List<String> roles;
 
 	public String getUsername() {
 		return username;
@@ -113,6 +117,14 @@ public class Usuario {
 
 	public void setPais(Pais pais) {
 		this.pais = pais;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> rol) {
+		this.roles = rol;
 	}
 	
 	
