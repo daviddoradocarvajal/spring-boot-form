@@ -5,7 +5,7 @@ import java.util.Date;
 import com.daviddorado.springboot.form.app.validation.IdentificationRegex;
 import com.daviddorado.springboot.form.app.validation.Requerido;
 
-import jakarta.validation.Valid;
+//import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -40,7 +40,7 @@ public class Usuario {
 	//@DateTimeFormat(pattern = "yyyy-MM-dd")		
 	private Date fechaNac;
 	@NotNull
-	@Valid
+	//@Valid
 	private Pais pais;
 
 	public String getUsername() {

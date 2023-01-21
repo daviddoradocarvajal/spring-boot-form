@@ -1,9 +1,9 @@
 package com.daviddorado.springboot.form.app.models.domain;
 
-import jakarta.validation.constraints.NotNull;
+//import jakarta.validation.constraints.NotNull;
 
 public class Pais {
-	@NotNull
+	//@NotNull
 	private Integer id;
 	private String codigo;
 	private String nombre;

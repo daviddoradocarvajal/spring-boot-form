@@ -11,14 +11,14 @@
 		<div>
 			<label for="pais">Pais</label>
 			<div>
-				<select id="pais" th:field="*{pais.id}">
+				<select id="pais" th:field="*{pais}">
 					<option value="">-- Seleccione pais --</option>
 					<!-- Aqui se usa el nombre del controller que devuelve la lista (no confundir con el nombre del campo en el modelo del thfield del select -->
 					<option th:each="pais: ${listaPaises}" th:text="${pais.nombre}"
 						th:value="${pais.id}"></option>
 				</select>
 			</div>
-			<div th:if="${#fields.hasErrors('pais.id')}" th:errors="*{pais.id}"></div>
+			<div th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></div>
 		</div>
 		<div>
 			<label for="identificador">Identificador</label>

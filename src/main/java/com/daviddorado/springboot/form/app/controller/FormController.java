@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.daviddorado.springboot.form.app.editors.NombreEditor;
+import com.daviddorado.springboot.form.app.editors.PaisPropertyEditor;
 import com.daviddorado.springboot.form.app.models.domain.Pais;
 import com.daviddorado.springboot.form.app.models.domain.Usuario;
 import com.daviddorado.springboot.form.app.services.PaisService;
@@ -36,6 +37,8 @@ public class FormController {
 	private UsuarioValidator validator;
 	@Autowired
 	private PaisService paisService;
+	@Autowired
+	private PaisPropertyEditor paisPropertyEditor;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -47,6 +50,7 @@ public class FormController {
 		binder.registerCustomEditor(Date.class, "fechaNac", new CustomDateEditor(dateFormat, false));
 		binder.registerCustomEditor(String.class, "nombre", new NombreEditor());
 		binder.registerCustomEditor(String.class, "userName", new NombreEditor());
+		binder.registerCustomEditor(Pais.class, "pais", paisPropertyEditor);
 	}
 
 	@ModelAttribute("paises")
