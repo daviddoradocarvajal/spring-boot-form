@@ -21,6 +21,7 @@
 		<li th:text="'Habilitado: '+${usuario.habilitar}"></li>
 		<li th:text="'Genero: '+${usuario.genero}"></li>
 		<li th:text="${#dates.format(usuario.fechaNac, 'dd/MM/yyyy')}"></li>
+		<li th:text="${usuario.valorSecreto}"></li>
 	</ul>
 	<div>Roles</div>
 	<ul>
