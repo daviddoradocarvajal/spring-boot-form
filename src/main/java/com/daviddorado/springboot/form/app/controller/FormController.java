@@ -60,6 +60,11 @@ public class FormController {
 		binder.registerCustomEditor(Pais.class, "pais", paisPropertyEditor);
 		binder.registerCustomEditor(Role.class, "roles", rolePropertyEditor);
 	}
+	
+	@ModelAttribute("generos")
+	public List<String> getGeneros(){
+		return Arrays.asList("Mujer","Hombre","No binario");
+	}
 
 	@ModelAttribute("paises")
 	public List<String> paises() {
