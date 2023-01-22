@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -60,32 +61,33 @@ public class FormController {
 		binder.registerCustomEditor(Pais.class, "pais", paisPropertyEditor);
 		binder.registerCustomEditor(Role.class, "roles", rolePropertyEditor);
 	}
-	
+
 	@ModelAttribute("generos")
-	public List<String> getGeneros(){
-		return Arrays.asList("Mujer","Hombre","No binario");
+	public List<String> getGeneros() {
+		return Arrays.asList("Mujer", "Hombre", "No binario");
 	}
 
 	@ModelAttribute("paises")
 	public List<String> paises() {
 		return Arrays.asList("España", "Portugal", "Francia", "Andorra");
 	}
+
 	@ModelAttribute("listaRoles")
-	public List<Role> listarRoles(){
+	public List<Role> listarRoles() {
 		return this.roleService.listRoles();
 	}
-	
+
 	@ModelAttribute("rolesString")
 	public List<String> rolesString() {
 		return Arrays.asList("Usuario", "Admin", "Moderador");
 	}
-	
+
 	@ModelAttribute("rolesMap")
 	public Map<String, String> rolesMap() {
 		Map<String, String> paises = new HashMap<>();
 		paises.put("US", "Usuario");
 		paises.put("AD", "Admin");
-		paises.put("MD", "Moderador");		
+		paises.put("MD", "Moderador");
 		return paises;
 	}
 
@@ -113,10 +115,20 @@ public class FormController {
 		usuario.setHabilitar(true);
 		usuario.setValorSecreto("Soy un valor secreto ****");
 		usuario.setPais(new Pais(1, "ES", "España"));
-		usuario.setRoles(Arrays.asList(new Role(1,"Administrador","ROLE_ADMIN")));
+		usuario.setRoles(Arrays.asList(new Role(1, "Administrador", "ROLE_ADMIN")));
 		model.addAttribute("titulo", "Formulario prueba");
 		model.addAttribute("usuario", usuario);
 		return "form";
+	}
+
+	@GetMapping("/resultado")
+	public String resultado(@SessionAttribute(name="usuario", required=false) Usuario usuario, Model model, SessionStatus status) {
+		if(usuario==null) {
+			return "redirect:/form";
+		}
+		model.addAttribute("titulo", "Resultado formulario");		
+		status.setComplete();
+		return "resultado";
 	}
 
 	/*
@@ -130,17 +142,11 @@ public class FormController {
 	 * 
 	 * @ModelAttribute permite cambiar el nombre del objeto para el formulario
 	 */
+	// Params eliminados @RequestParam String username, @RequestParam String
+	// password, @RequestParam String email
 	@PostMapping("/form")
-	public String procesar(@Valid Usuario usuario, BindingResult validationResult, Model model, SessionStatus status) // ,
-																														// @RequestParam
-																														// String
-																														// username,
-																														// @RequestParam
-																														// String
-	// password, @RequestParam String email)
-	{
-		// validator.validate(usuario, validationResult);
-		model.addAttribute("titulo", "Resultado formulario");
+	public String procesar(@Valid Usuario usuario, BindingResult validationResult, Model model) {
+		// validator.validate(usuario, validationResult);		
 		if (validationResult.hasErrors()) {
 			/*
 			 * Map<String, String> errores = new HashMap<>();
@@ -149,6 +155,7 @@ public class FormController {
 			 * "El campo ".concat(error.getField()).concat(" ").concat(error.
 			 * getDefaultMessage())); }); model.addAttribute("error",errores);
 			 */
+			model.addAttribute("titulo", "Resultado formulario");
 			return "form";
 		}
 		/*
@@ -156,12 +163,12 @@ public class FormController {
 		 * usuario.setPassword(password); usuario.setEmail(email);
 		 */
 
-		model.addAttribute("usuario", usuario);
-		status.setComplete();
+		// model.addAttribute("usuario", usuario);
+
 		/*
 		 * model.addAttribute("username", username); model.addAttribute("password",
 		 * password); model.addAttribute("email", email);
 		 */
-		return "resultado";
+		return "redirect:/resultado";
 	}
 }
