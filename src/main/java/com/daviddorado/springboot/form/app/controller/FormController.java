@@ -22,9 +22,12 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.daviddorado.springboot.form.app.editors.NombreEditor;
 import com.daviddorado.springboot.form.app.editors.PaisPropertyEditor;
+import com.daviddorado.springboot.form.app.editors.RolePropertyEditor;
 import com.daviddorado.springboot.form.app.models.domain.Pais;
+import com.daviddorado.springboot.form.app.models.domain.Role;
 import com.daviddorado.springboot.form.app.models.domain.Usuario;
 import com.daviddorado.springboot.form.app.services.PaisService;
+import com.daviddorado.springboot.form.app.services.RoleService;
 import com.daviddorado.springboot.form.app.validation.UsuarioValidator;
 
 import jakarta.validation.Valid;
@@ -39,6 +42,10 @@ public class FormController {
 	private PaisService paisService;
 	@Autowired
 	private PaisPropertyEditor paisPropertyEditor;
+	@Autowired
+	private RoleService roleService;
+	@Autowired
+	private RolePropertyEditor rolePropertyEditor;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -51,16 +58,30 @@ public class FormController {
 		binder.registerCustomEditor(String.class, "nombre", new NombreEditor());
 		binder.registerCustomEditor(String.class, "userName", new NombreEditor());
 		binder.registerCustomEditor(Pais.class, "pais", paisPropertyEditor);
+		binder.registerCustomEditor(Role.class, "roles", rolePropertyEditor);
 	}
 
 	@ModelAttribute("paises")
 	public List<String> paises() {
 		return Arrays.asList("España", "Portugal", "Francia", "Andorra");
 	}
+	@ModelAttribute("listaRoles")
+	public List<Role> listarRoles(){
+		return this.roleService.listRoles();
+	}
 	
 	@ModelAttribute("rolesString")
 	public List<String> rolesString() {
 		return Arrays.asList("Usuario", "Admin", "Moderador");
+	}
+	
+	@ModelAttribute("rolesMap")
+	public Map<String, String> rolesMap() {
+		Map<String, String> paises = new HashMap<>();
+		paises.put("US", "Usuario");
+		paises.put("AD", "Admin");
+		paises.put("MD", "Moderador");		
+		return paises;
 	}
 
 	@ModelAttribute("paisesMap")
@@ -84,6 +105,7 @@ public class FormController {
 		usuario.setNombre("john");
 		usuario.setApellido("doe");
 		usuario.setIdentificador("123.456.789-L");
+		usuario.setHabilitar(true);
 		model.addAttribute("titulo", "Formulario prueba");
 		model.addAttribute("usuario", usuario);
 		return "form";
